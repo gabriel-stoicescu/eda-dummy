@@ -1,0 +1,87 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+
+spring:
+  application:
+    name: eda-dummy
+  main:
+    banner-mode: off
+  mvc:
+    throw-exception0if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  cloud:
+    function:
+      definition: eventConsumer
+    stream:
+      bindings:
+        eventSupplier-out-0:
+          producer:
+            useNativeEncoding: true
+          destination: "test.event.1"
+          content-type: application/*+avro
+        eventConsumer-in-0:
+          destination: "test.event.1"
+          consumer:
+            useNativeEncoding: true
+          group: consumer-group-1
+      kafka:
+        bindings:
+          eventSupplier-out-0:
+            producer:
+              configuration:
+                schema.registry.url: https://psrc-95km5.eu-central-1.aws.confluent.cloud
+                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+                value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+                auto.register.schemas: false
+                avro.remove.java.properties: true
+                avro.use.logical.type.converters: true
+                use.latest.version: true
+                basic.auth.credentials.source: USER_INFO
+                client.id: rice-eda-dev-0
+                client.dns.lookup: use_all_dns_ips
+                security.protocol: SASL_SSL
+                sasl:
+                  mechanism: PLAIN
+                  jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='BKZUBSV4JWLYPEH5'   password='Duiu5ds/WQBmLaIyWTTtxEViRl6CdgZ4xNTqu6og01FytAVF3jqmTjUwFxgANCMi';"
+                schema.registry.basic.auth.user.info: "WLZ7KKJNF6OAUVPP:CGI8cW9ZablJ9tfjzgMGigNDbqA8VKXN9U7RB6gkCcE7vrB5c1RPgfUswHHV2R8E"
+          eventConsumer-in-0:
+            consumer:
+              configuration:
+                schema.registry.url: https://psrc-95km5.eu-central-1.aws.confluent.cloud
+                basic.auth.credentials.source: USER_INFO
+                schema.registry.basic.auth.user.info: "WLZ7KKJNF6OAUVPP:CGI8cW9ZablJ9tfjzgMGigNDbqA8VKXN9U7RB6gkCcE7vrB5c1RPgfUswHHV2R8E"
+                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+                value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+                auto.register.schemas: false
+                specific.avro.reader: true
+                use.latest.version: true
+                client.dns.lookup: use_all_dns_ips
+                security.protocol: SASL_SSL
+                sasl:
+                  mechanism: PLAIN
+                  jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='BKZUBSV4JWLYPEH5'   password='Duiu5ds/WQBmLaIyWTTtxEViRl6CdgZ4xNTqu6og01FytAVF3jqmTjUwFxgANCMi';"
+        binder:
+          brokers: pkc-zpjg0.eu-central-1.aws.confluent.cloud:9092
+          autoCreateTopics: false
+          autoAddPartitions: false
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: '*'
+
+producer:
+  interval: 10000
+  delay: 1000
+  threads: 1
