@@ -5,9 +5,7 @@
  */
 package org.cosmin.avro;
 
-import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
-import org.apache.avro.util.Utf8;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.SchemaStore;
@@ -18,7 +16,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
     private static final long serialVersionUID = 4094267782303799592L;
 
 
-    public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TestEvent\",\"namespace\":\"com.rbinternational.rice.test.validation\",\"doc\":\"Schema that can be used for initial integration testing for producers and consumers.\",\"fields\":[{\"name\":\"clientId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"client chosen random string to filter for own data\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"},\"doc\":\"timestamp of message produced\"},{\"name\":\"payload\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"test payload\"},{\"name\":\"comment\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"Comment\"}]}");
+    public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TestEvent\",\"namespace\":\"org.cosmin.avro\",\"doc\":\"Schema that can be used for initial integration testing for producers and consumers.\",\"fields\":[{\"name\":\"clientId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"client chosen random string to filter for own data\"},{\"name\":\"timestamp\",\"type\":{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"},\"doc\":\"timestamp of message produced\"},{\"name\":\"payload\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"test payload\"},{\"name\":\"comment\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"doc\":\"Comment\"}]}");
     public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
     private static final SpecificData MODEL$ = new SpecificData();
@@ -228,8 +226,8 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
      * Creates a new TestEvent RecordBuilder.
      * @return A new TestEvent RecordBuilder
      */
-    public static org.cosmin.avro.TestEvent.Builder newBuilder() {
-        return new org.cosmin.avro.TestEvent.Builder();
+    public static TestEvent.Builder newBuilder() {
+        return new TestEvent.Builder();
     }
 
     /**
@@ -237,11 +235,11 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
      * @param other The existing builder to copy.
      * @return A new TestEvent RecordBuilder
      */
-    public static org.cosmin.avro.TestEvent.Builder newBuilder(org.cosmin.avro.TestEvent.Builder other) {
+    public static TestEvent.Builder newBuilder(TestEvent.Builder other) {
         if (other == null) {
-            return new org.cosmin.avro.TestEvent.Builder();
+            return new TestEvent.Builder();
         } else {
-            return new org.cosmin.avro.TestEvent.Builder(other);
+            return new TestEvent.Builder(other);
         }
     }
 
@@ -250,11 +248,11 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
      * @param other The existing instance to copy.
      * @return A new TestEvent RecordBuilder
      */
-    public static org.cosmin.avro.TestEvent.Builder newBuilder(org.cosmin.avro.TestEvent other) {
+    public static TestEvent.Builder newBuilder(TestEvent other) {
         if (other == null) {
-            return new org.cosmin.avro.TestEvent.Builder();
+            return new TestEvent.Builder();
         } else {
-            return new org.cosmin.avro.TestEvent.Builder(other);
+            return new TestEvent.Builder(other);
         }
     }
 
@@ -283,7 +281,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * Creates a Builder by copying an existing Builder.
          * @param other The existing Builder to copy.
          */
-        private Builder(org.cosmin.avro.TestEvent.Builder other) {
+        private Builder(TestEvent.Builder other) {
             super(other);
             if (isValidValue(fields()[0], other.clientId)) {
                 this.clientId = data().deepCopy(fields()[0].schema(), other.clientId);
@@ -307,7 +305,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * Creates a Builder by copying an existing TestEvent instance
          * @param other The existing instance to copy.
          */
-        private Builder(org.cosmin.avro.TestEvent other) {
+        private Builder(TestEvent other) {
             super(SCHEMA$, MODEL$);
             if (isValidValue(fields()[0], other.clientId)) {
                 this.clientId = data().deepCopy(fields()[0].schema(), other.clientId);
@@ -343,7 +341,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * @param value The value of 'clientId'.
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder setClientId(java.lang.CharSequence value) {
+        public TestEvent.Builder setClientId(java.lang.CharSequence value) {
             validate(fields()[0], value);
             this.clientId = value;
             fieldSetFlags()[0] = true;
@@ -365,7 +363,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * client chosen random string to filter for own data
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder clearClientId() {
+        public TestEvent.Builder clearClientId() {
             clientId = null;
             fieldSetFlags()[0] = false;
             return this;
@@ -387,7 +385,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * @param value The value of 'timestamp'.
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder setTimestamp(java.time.Instant value) {
+        public TestEvent.Builder setTimestamp(java.time.Instant value) {
             validate(fields()[1], value);
             this.timestamp = value.truncatedTo(java.time.temporal.ChronoUnit.MILLIS);
             fieldSetFlags()[1] = true;
@@ -409,7 +407,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * timestamp of message produced
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder clearTimestamp() {
+        public TestEvent.Builder clearTimestamp() {
             fieldSetFlags()[1] = false;
             return this;
         }
@@ -430,7 +428,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * @param value The value of 'payload'.
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder setPayload(java.lang.CharSequence value) {
+        public TestEvent.Builder setPayload(java.lang.CharSequence value) {
             validate(fields()[2], value);
             this.payload = value;
             fieldSetFlags()[2] = true;
@@ -452,7 +450,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * test payload
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder clearPayload() {
+        public TestEvent.Builder clearPayload() {
             payload = null;
             fieldSetFlags()[2] = false;
             return this;
@@ -474,7 +472,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * @param value The value of 'comment'.
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder setComment(java.lang.CharSequence value) {
+        public TestEvent.Builder setComment(java.lang.CharSequence value) {
             validate(fields()[3], value);
             this.comment = value;
             fieldSetFlags()[3] = true;
@@ -496,7 +494,7 @@ public class TestEvent extends org.apache.avro.specific.SpecificRecordBase imple
          * Comment
          * @return This builder.
          */
-        public org.cosmin.avro.TestEvent.Builder clearComment() {
+        public TestEvent.Builder clearComment() {
             comment = null;
             fieldSetFlags()[3] = false;
             return this;

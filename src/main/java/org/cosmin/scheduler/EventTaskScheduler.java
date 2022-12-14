@@ -2,10 +2,8 @@ package org.cosmin.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.avro.generic.GenericData;
 import org.cosmin.avro.TestEvent;
 import org.cosmin.generator.EventGenerator;
-import org.cosmin.generator.TestEventGenerator;
 import org.cosmin.producer.EventSupplier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,9 +27,6 @@ public class EventTaskScheduler {
     private int threadPoolSize;
 
     private final EventGenerator eventGenerator;
-
-    private final TestEventGenerator testEventGenerator;
-
     private final EventSupplier eventSupplier;
 
     private final Random random = new Random(System.currentTimeMillis());
@@ -43,8 +38,12 @@ public class EventTaskScheduler {
         scheduler.scheduleAtFixedRate(
             () -> {
                 try {
-                    final GenericData.Record event = testEventGenerator.generateEvent();
+                    final TestEvent event = eventGenerator.generateEvent(TestEvent.class);
                     eventSupplier.produce(event);
+                    log.info("Event generated: client id ({}), timestamp ({}), comment ({})",
+                            event.getClientId(),
+                            event.getTimestamp(),
+                            event.getComment());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
