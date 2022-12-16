@@ -16,8 +16,8 @@ spring:
     resources:
       add-mappings: false
   cloud:
-#    function:
-#      definition: eventConsumer
+    function:
+      definition: eventSupplier;eventConsumer
     stream:
       bindings:
         eventSupplier-out-0:
@@ -25,52 +25,50 @@ spring:
             useNativeEncoding: true
           destination: "RBRO.TEST.EVENT"
           content-type: application/*+avro
-#        eventConsumer-in-0:
-#          destination: "RBRO.TEST.EVENT"
-#          consumer:
-#            useNativeEncoding: true
-#          group: consumer-group-1
+        eventConsumer-in-0:
+          destination: "RBRO.TEST.EVENT"
+          consumer:
+            useNativeEncoding: true
+          group: cosmin-consumer-group-1
       kafka:
-        bindings:
-          eventSupplier-out-0:
-            producer:
-              configuration:
-                schema.registry.url: https://psrc-95km5.eu-central-1.aws.confluent.cloud
-                value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-                value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
-                auto.register.schemas: false
-                avro.remove.java.properties: true
-                avro.use.logical.type.converters: true
-                use.latest.version: true
-                basic.auth.credentials.source: USER_INFO
-                client.id: rice-eda-dev-0
-                client.dns.lookup: use_all_dns_ips
-                security.protocol: SASL_SSL
-                sasl:
-                  mechanism: PLAIN
-                  jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='ORAGIY6SZMOCS42Q'   password='6H7nvIbQnh6Av7IIt6Sq026UwyjTXOtdxadPzAg99jzPvJIeM/md2HPArkTx73Sj';"
-                schema.registry.basic.auth.user.info: "KPGCI5YXRFFLWEQV:IP4tsPmZa73x/P2/oYO07bKWtYx2jhsbf53FWatItt2ccwvE/h7yPpkLD+7GbTUH"
-#          eventConsumer-in-0:
-#            consumer:
-#              configuration:
-#                schema.registry.url: https://psrc-95km5.eu-central-1.aws.confluent.cloud
-#                basic.auth.credentials.source: USER_INFO
-#                schema.registry.basic.auth.user.info: "KPGCI5YXRFFLWEQV:IP4tsPmZa73x/P2/oYO07bKWtYx2jhsbf53FWatItt2ccwvE/h7yPpkLD+7GbTUH"
-#                value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-#                value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
-#                auto.register.schemas: false
-#                specific.avro.reader: true
-#                use.latest.version: true
-#                client.dns.lookup: use_all_dns_ips
-#                security.protocol: SASL_SSL
-#                sasl:
-#                  mechanism: PLAIN
-#                  jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='ORAGIY6SZMOCS42Q'   password='6H7nvIbQnh6Av7IIt6Sq026UwyjTXOtdxadPzAg99jzPvJIeM/md2HPArkTx73Sj';"
         binder:
           brokers: pkc-zpjg0.eu-central-1.aws.confluent.cloud:9092
           autoCreateTopics: false
           autoAddPartitions: false
-
+          configuration:
+            security.protocol: SASL_SSL
+            sasl:
+              mechanism: PLAIN
+              jaas.config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='F74FC3CBGTSH4NER'   password='Wyt3D6f60Mc1Ka9sPJyz1AULfePNaDvkVj62mv7E/u30EtvuzcsgbkfeXVQZkn90';"
+          producer-properties:
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+            auto.register.schemas: false
+            avro.remove.java.properties: true
+            avro.use.logical.type.converters: true
+            use.latest.version: true
+            client.dns.lookup: use_all_dns_ips
+            basic.auth.credentials.source: USER_INFO
+            schema.registry.url: https://psrc-8vyvr.eu-central-1.aws.confluent.cloud
+            schema.registry.basic.auth.user.info: "KPGCI5YXRFFLWEQV:IP4tsPmZa73x/P2/oYO07bKWtYx2jhsbf53FWatItt2ccwvE/h7yPpkLD+7GbTUH"
+          consumer-properties:
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+            auto.register.schemas: false
+            specific.avro.reader: true
+            use.latest.version: true
+            client.dns.lookup: use_all_dns_ips
+            basic.auth.credentials.source: USER_INFO
+            schema.registry.url: https://psrc-8vyvr.eu-central-1.aws.confluent.cloud
+            schema.registry.basic.auth.user.info: "KPGCI5YXRFFLWEQV:IP4tsPmZa73x/P2/oYO07bKWtYx2jhsbf53FWatItt2ccwvE/h7yPpkLD+7GbTUH"
+        bindings:
+          eventSupplier-out-0:
+            producer:
+              configuration:
+                client.id: cosmin-producer-dev-0
+#          eventConsumer-in-0:
+#            consumer:
+#              configuration:
 management:
   endpoint:
     health:

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -31,6 +33,9 @@ public class EventTaskScheduler {
 
     private final Random random = new Random(System.currentTimeMillis());
 
+    private final DateTimeFormatter dateTimeFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
+
     @PostConstruct
     public void runTask() {
         final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(threadPoolSize);
@@ -39,10 +44,11 @@ public class EventTaskScheduler {
             () -> {
                 try {
                     final TestEvent event = eventGenerator.generateEvent(TestEvent.class);
+                    event.setTimestamp(Instant.now());
                     eventSupplier.produce(event);
-                    log.info("Event generated: client id ({}), timestamp ({}), comment ({})",
+                    log.info("|++++++++++|Event generated: client id ({}), timestamp ({}), comment ({})",
                             event.getClientId(),
-                            event.getTimestamp(),
+                            dateTimeFormatter.format(event.getTimestamp()),
                             event.getComment());
                 } catch (Exception e) {
                     e.printStackTrace();
