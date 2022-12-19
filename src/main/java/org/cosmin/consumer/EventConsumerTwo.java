@@ -11,13 +11,13 @@ import java.util.function.Consumer;
 
 @Slf4j
 @RequiredArgsConstructor
-@Component("eventConsumer")
-public class EventConsumer implements Consumer<TestEvent> {
+@Component("eventConsumerTwo")
+public class EventConsumerTwo implements Consumer<TestEvent> {
     private final DateTimeFormatter dateTimeFormatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
     @Override
     public void accept(final TestEvent event) {
-        log.info("|-----------| Confluent Cloud Event received: client id ({}), payload ({}), timestamp ({})",
+        log.info("|-----2-----| Confluent Cloud Event received: client id ({}), payload ({}), timestamp ({})",
                 event.getClientId(),
                 event.getPayload(),
                 dateTimeFormatter.format(event.getTimestamp()));

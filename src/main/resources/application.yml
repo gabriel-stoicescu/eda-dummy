@@ -17,7 +17,7 @@ spring:
       add-mappings: false
   cloud:
     function:
-      definition: eventSupplier;eventConsumer
+      definition: eventSupplier;eventConsumerOne;eventConsumerTwo
     stream:
       bindings:
         eventSupplier-out-0:
@@ -25,11 +25,16 @@ spring:
             useNativeEncoding: true
           destination: "RBRO.TEST.EVENT"
           content-type: application/*+avro
-        eventConsumer-in-0:
+        eventConsumerOne-in-0:
           destination: "RBRO.TEST.EVENT"
           consumer:
             useNativeEncoding: true
           group: cosmin-consumer-group-1
+        eventConsumerTwo-in-0:
+          destination: "RBRO.TEST.EVENT"
+          consumer:
+            useNativeEncoding: true
+          group: cosmin-consumer-group-2
       kafka:
         binder:
           brokers: pkc-zpjg0.eu-central-1.aws.confluent.cloud:9092
