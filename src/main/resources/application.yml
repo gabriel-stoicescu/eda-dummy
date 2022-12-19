@@ -29,6 +29,7 @@ spring:
           destination: "RBRO.TEST.EVENT"
           consumer:
             useNativeEncoding: true
+            concurrency: 3
           group: cosmin-consumer-group-1
         eventConsumerTwo-in-0:
           destination: "RBRO.TEST.EVENT"

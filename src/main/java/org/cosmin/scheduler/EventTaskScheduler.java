@@ -46,7 +46,7 @@ public class EventTaskScheduler {
                     final TestEvent event = eventGenerator.generateEvent(TestEvent.class);
                     event.setTimestamp(Instant.now());
                     eventSupplier.produce(event);
-                    log.info("|++++++++++|Event generated: client id ({}), timestamp ({}), comment ({})",
+                    log.info("|+++++1+++++|Event generated: client id ({}), timestamp ({}), comment ({})",
                             event.getClientId(),
                             dateTimeFormatter.format(event.getTimestamp()),
                             event.getComment());
