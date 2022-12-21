@@ -3,6 +3,7 @@ package org.cosmin.consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cosmin.avro.TestEvent;
+import org.cosmin.util.Constants;
 import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
@@ -13,13 +14,11 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @Component("eventConsumerOne")
 public class EventConsumerOne implements Consumer<TestEvent> {
-    private final DateTimeFormatter dateTimeFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
     @Override
     public void accept(final TestEvent event) {
         log.info("|-----1-----| Confluent Cloud Event received: client id ({}), payload ({}), timestamp ({})",
                 event.getClientId(),
                 event.getPayload(),
-                dateTimeFormatter.format(event.getTimestamp()));
+                Constants.DATE_TIME_FORMAT.format(event.getTimestamp()));
     }
 }

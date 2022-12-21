@@ -4,6 +4,9 @@ server:
 logging:
   level:
     root: INFO
+    org:
+      cosmin:
+        producer*: DEBUG
 
 spring:
   application:
@@ -15,9 +18,15 @@ spring:
   web:
     resources:
       add-mappings: false
+  # The following poller configuration sets the interval and batch size for message sending to Kafka
+  integration:
+    poller:
+      fixedDelay: 100
+      maxMessagesPerPoll: 100
   cloud:
     function:
-      definition: eventSupplier;eventConsumerOne;eventConsumerTwo
+      definition: eventSupplier
+#;eventConsumerOne;eventConsumerTwo
     stream:
       bindings:
         eventSupplier-out-0:
@@ -39,6 +48,7 @@ spring:
       kafka:
         binder:
           brokers: pkc-zpjg0.eu-central-1.aws.confluent.cloud:9092
+#          requiredAcks: 1
           autoCreateTopics: false
           autoAddPartitions: false
           configuration:
@@ -86,6 +96,11 @@ management:
         include: '*'
 
 producer:
-  interval: 10000
-  delay: 1000
-  threads: 1
+  pooled:
+    interval: 100000
+    delay: 100000
+    threads: 1
+  direct:
+    interval: 1000
+    delay: 10000
+    threads: 1

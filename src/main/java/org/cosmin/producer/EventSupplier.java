@@ -1,8 +1,8 @@
 package org.cosmin.producer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.avro.generic.GenericData;
 import org.cosmin.avro.TestEvent;
+import org.cosmin.util.Constants;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.BlockingQueue;
@@ -16,10 +16,22 @@ public class EventSupplier implements Supplier<TestEvent> {
 
     public void produce(final TestEvent msg) {
         eventQueue.add(msg);
+        log.debug("Blocking queue after adding event: size - {} | remaining capacity - {}",
+                eventQueue.size(),
+                eventQueue.remainingCapacity());
     }
 
     @Override
     public TestEvent get() {
-        return eventQueue.poll();
+        TestEvent event = eventQueue.poll();
+
+        if (null != event) {
+            log.info("|+++++1+++++|Event sending to Kafka: client id ({}), timestamp ({}), comment ({})",
+                    event.getClientId(),
+                    Constants.DATE_TIME_FORMAT.format(event.getTimestamp()),
+                    event.getComment());
+        }
+
+        return event;
     }
 }
