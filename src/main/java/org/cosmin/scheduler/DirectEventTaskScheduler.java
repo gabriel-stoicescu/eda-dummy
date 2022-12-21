@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cosmin.avro.TestEvent;
 import org.cosmin.generator.EventGenerator;
+import org.cosmin.producer.DirectEventProducer;
 import org.cosmin.producer.EventSupplier;
 import org.cosmin.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,8 @@ public class DirectEventTaskScheduler {
     @Value("${producer.direct.threads}")
     private int threadPoolSize;
 
-    private final String PRODUCER_BINDING = "eventSupplier-out-0";
-
-    @Autowired
-    StreamBridge streamBridge;
-
     private final EventGenerator eventGenerator;
+    private final DirectEventProducer eventProducer;
 
     @PostConstruct
     public void runTask() {
@@ -44,8 +41,8 @@ public class DirectEventTaskScheduler {
                 try {
                     final TestEvent event = eventGenerator.generateEvent(TestEvent.class);
                     event.setTimestamp(Instant.now());
-                    streamBridge.send(PRODUCER_BINDING, event);
-                    log.info("|+++++1+++++|Event sending to Kafka: client id ({}), timestamp ({}), comment ({})",
+                    eventProducer.produce(event);
+                    log.info("|+++++1+++++|Event sent to Kafka: client id ({}), timestamp ({}), comment ({})",
                             event.getClientId(),
                             Constants.DATE_TIME_FORMAT.format(event.getTimestamp()),
                             event.getComment());
